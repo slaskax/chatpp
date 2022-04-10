@@ -20,3 +20,4 @@ of new features and remove various annoyances. Give it a shot!
 * formatted chat (no images)
 * tabs for chat menu; ability to open multiple worlds
 * /addchat command for the funne
+* a /settings command for various things such as chatfield size defaults
