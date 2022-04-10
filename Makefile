@@ -1,6 +1,6 @@
 build: chatpp.js chatpp.min.js
 
-chatpp.js: src/*
+chatpp.js: $(shell find src -type f)
 	npx tsc
 
 chatpp.min.js: chatpp.js
@@ -9,7 +9,7 @@ chatpp.min.js: chatpp.js
 clean:
 	rm -f chatpp.js chatpp.min.js chatpp.min.js.map
 
-rebuild: clean chatpp.js
+rebuild: clean build
 
 watch:
 	while true; do $(MAKE) -q || $(MAKE); sleep 0.5; done
