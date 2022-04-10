@@ -31,5 +31,7 @@ declare namespace YourWorld {
 };
 declare var defaultChatColor: number;
 declare function html_tag_esc(text: string, nbsp?: boolean, nl?: boolean): string;
+declare var elm: {[key: string]: HTMLElement};
+declare function resizeChat(width: number, height: number): [number, number];
 
 type OWOTData = {[key: string]: any};
