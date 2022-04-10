@@ -4,8 +4,8 @@ of new features and remove various annoyances. Give it a shot!
 
 ## Current feature list:
 * manual chat filtering
-* /r command to quickly reply to last DM
-* ability to /tell using username with `@`
+* `/r` command to quickly reply to last DM
+* ability to `/tell` using username with `@`
 * ability to see anon colors
 * gridsize aliases (default, sqaure, half, and mixed)
 
