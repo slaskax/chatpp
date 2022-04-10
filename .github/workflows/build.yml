@@ -13,3 +13,9 @@ jobs:
         run: npm ci
       - name: Run Makefile.
         run: make
+      - name: Save artifacts.
+        uses: actions/upload-artifact@v3
+        with:
+          name: chatpp-dist
+          path: |
+            chatpp.*
