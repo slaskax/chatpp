@@ -18,7 +18,7 @@ addCommand("tell", (args) => {
         if (user2id.hasOwnProperty(user)) {
             args[0] = user2id[user].toString();
         } else {
-            informUser("User has not been seen since Chat++ started.", false);
+            informUser(`${user} hasn't been seen since Chat++ started.`, false);
             return;
         }
     }
