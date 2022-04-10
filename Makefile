@@ -1,6 +1,6 @@
 build: chatpp.js chatpp.min.js
 
-chatpp.js: src/*
+chatpp.js: $(shell find src -type f)
 	npx tsc
 
 chatpp.min.js: chatpp.js
