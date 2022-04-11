@@ -44,7 +44,7 @@ let core_subcommands = {
  *************************************/
 
 let block_subcommands = {
-    list: (args: string[]) => {
+    list: () => {
         let out = "Your block list:\n";
         let filter_rules = Filter.get_instance().get_rules();
     
@@ -125,7 +125,7 @@ addCommand("block", (args) => {
             default:
                 throw "Invalid subcommand.";
         }
-    } catch (msg: string) {
+    } catch (msg) {
         informUser(msg, false);
     }
 });
@@ -192,7 +192,7 @@ addCommand("unblock", (args) => {
             default:
                 throw "Invalid subcommand.";
         }
-    } catch (msg: string) {
+    } catch (msg) {
         informUser(msg, false);
     }
 });
