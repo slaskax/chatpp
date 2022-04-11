@@ -4,7 +4,7 @@ chatpp.js: $(shell find src -type f)
 	npx tsc
 
 chatpp.min.js: chatpp.js
-	npx uglifyjs chatpp.js -c -m --v8 --source-map -o chatpp.min.js
+	npx uglifyjs chatpp.js -c passes=2 -m --v8 --source-map -o chatpp.min.js
 
 clean:
 	rm -f chatpp.js chatpp.min.js chatpp.min.js.map
