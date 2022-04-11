@@ -3,27 +3,27 @@
 
 // Functionality that is shared between /block and /unblock.
 let core_subcommands = {
-    user: (args: string[], callback: (user: string) => {}) => {
+    user: (args: string[], callback: (user: string) => void) => {
         if (args.length === 1)
             throw "Invalid username.";
 
         callback(args[0]);
     },
-    nick: (args: string[], callback: (nick: string) => {}) => {
+    nick: (args: string[], callback: (nick: string) => void) => {
         if (args.length < 1)
             throw "Invalid number of args.";
 
         let nick = args.join(" ");
         callback(nick);
     },
-    string: (args: string[], callback: (str: string) => {}) => {
+    string: (args: string[], callback: (str: string) => void) => {
         if (args.length < 1)
             throw "Invalid number of args.";
 
         let str = args.join(" ");
         callback(str);
     },
-    id: (args: string[], callback: (id: number) => {}) => {
+    id: (args: string[], callback: (id: number) => void) => {
         if (args.length < 1)
             throw "Invalid number of args.";
 
