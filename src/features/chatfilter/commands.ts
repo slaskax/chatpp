@@ -126,7 +126,11 @@ addCommand("block", (args) => {
                 throw "Invalid subcommand.";
         }
     } catch (msg) {
-        informUser(msg, false);
+        if (typeof msg === "string") {
+            informUser(msg, false);
+        } else {
+            throw msg;
+        }
     }
 });
 
@@ -193,6 +197,10 @@ addCommand("unblock", (args) => {
                 throw "Invalid subcommand.";
         }
     } catch (msg) {
-        informUser(msg, false);
+        if (typeof msg === "string") {
+            informUser(msg, false);
+        } else {
+            throw msg;
+        }
     }
 });
