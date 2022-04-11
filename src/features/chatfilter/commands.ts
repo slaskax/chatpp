@@ -76,7 +76,7 @@ let block_subcommands = {
         });
     },
     nick: (args: string[]) => {
-        core_subcommands.nick(args, (id) => {
+        core_subcommands.nick(args, (nick) => {
             Filter.get_instance().add_rule(FilterTypes.Nickname, nick);
         });
     },
@@ -144,7 +144,7 @@ let unblock_subcommands = {
         });
     },
     nick: (args: string[]) => {
-        core_subcommands.nick(args, (id) => {
+        core_subcommands.nick(args, (nick) => {
             Filter.get_instance().del_rule(FilterTypes.Nickname, nick);
         });
     },
