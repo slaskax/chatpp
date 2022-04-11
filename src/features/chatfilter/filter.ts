@@ -57,7 +57,7 @@ class Filter {
     }
 
     public add_rule(kind: FilterTypes, data: any) {
-        switch (FilterTypes) {
+        switch (kind) {
         case FilterTypes.Username:
             if (typeof data !== "string") throw Error();
 
