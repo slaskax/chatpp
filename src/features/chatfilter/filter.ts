@@ -57,7 +57,40 @@ class Filter {
     }
 
     public add_rule(kind: FilterTypes, data: any) {
-        Filter.save_data();
+        switch (FilterTypes) {
+        case FilterTypes.Username:
+            if (typeof data !== "string") throw Error();
+
+            if (!Filter.rules.username.includes(data)) {
+                Filter.rules.username.push(data);
+                return;
+            }
+        case FilterTypes.Nickname:
+            if (typeof data !== "string") return;
+
+            if (!Filter.rules.nickname.includes(data)) {
+                Filter.rules.nickname.push(data);
+                return;
+            }
+        case FilterTypes.String:
+            if (typeof data !== "string") throw Error();
+
+            if (!Filter.rules.string.includes(data)) {
+                Filter.rules.string.push(data);
+                return;
+            }
+        case FilterTypes.ID:
+            if (typeof data !== "number") throw Error();
+
+            if (!Filter.rules.id?.includes(data)) {
+                Filter.rules.id?.push(data);
+                return;
+            }
+        }
+
+        /* If this point has been reached (i.e. return wasn't called), then
+         *the rule must not exist, and we'll inform the user of this */
+        throw "Rule does not exist";
     }
 
     public del_rule(kind: FilterTypes, data: any) {
