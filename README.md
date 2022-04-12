@@ -30,3 +30,4 @@ of new features and remove various annoyances. Give it a shot!
     * ability to have chat theme sync with canvas theme
 * `/me <message>` like IRC
 * `/whois <user|nick|id>` which shows ID, chat color, account name, and last message time.
+* allows /clear to take an optional argument to clear a specific person's messages only
