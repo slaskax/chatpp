@@ -1,4 +1,4 @@
-# Chat++ - extended chat for OWOT
+# Chat++ - Improved chat for Our World of Text.
 Chat++ is a script that extends the default OWOT chat to have tons
 of new features and remove various annoyances. Give it a shot!
 
