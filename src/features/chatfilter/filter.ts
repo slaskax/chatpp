@@ -1,4 +1,4 @@
-/// Notice: This functionality is not finished yet.
+/// <reference path="autofilter.ts" />
 
 // Where rules will be stored in localStorage.
 const FILTER_KEY = "chatpp_filter_rules";
@@ -20,6 +20,7 @@ class Filter {
         nickname: string[],
         id?: number[]
     };
+    private static auto: Autofilter;
 
     private constructor() {
         Filter.rules = {string: [], username: [], nickname: [], id: []};
@@ -28,6 +29,8 @@ class Filter {
         let ls_data = localStorage.getItem(FILTER_KEY);
         if (ls_data)
             Filter.rules = Object.assign(Filter.rules, JSON.parse(ls_data));
+        
+        Filter.auto = Autofilter.get_instance();
     };
 
     // Get an instance of the Filter singleton.
@@ -158,6 +161,10 @@ class Filter {
         
         // Check for disallowed IDs.
         if (Filter.rules.id?.includes(event.id))
+            return true;
+        
+        // See if the auto-filter has any issue with it.
+        if (Filter.auto.should_filter(event))
             return true;
 
         // If it has passed all checks, then allow it through.
