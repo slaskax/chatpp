@@ -6,7 +6,7 @@ class Autofilter {
     // Get an instance of the Autofilter singleton.
     public static get_instance(): Autofilter {
         if (!Autofilter.instance)
-        Autofilter.instance = new Autofilter();
+            Autofilter.instance = new Autofilter();
         
         return Autofilter.instance;
     }
