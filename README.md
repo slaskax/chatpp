@@ -7,7 +7,7 @@ of new features and remove various annoyances. Give it a shot!
 * `/r` command to quickly reply to last DM
 * ability to `/tell` using username with `@`
 * ability to see anon colors
-* gridsize aliases (default, sqaure, half, and mixed)
+* gridsize aliases (default, square, half, and mixed)
 
 ## Planned features:
 * chat filter (with automatic filtering)
