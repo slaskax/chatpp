@@ -11,6 +11,11 @@ w.on("chat", (e: OWOTData) => {
 
 // Simple client-side wrapper around /tell to add @[user] functionality.
 // /tell is implemented server-side, so we can just use addCommand here.
+addCommandDoc(
+    "tell",
+    "Allows you to privately message by username rather than just id.",
+    [["@username", true], ["message", true]]
+);
 addCommand("tell", (args) => {
     // Replace @[user] with their ID.
     if (args.length > 0 && args[0].charAt(0) === "@") {
