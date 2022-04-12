@@ -1,13 +1,5 @@
 /// <reference path="anon_colors.ts" />
-
-// A mapping between usernames and their last seen ID.
-let user2id: {[key: string]: number} = {};
-
-// Updates user2id with the relevent info.
-w.on("chat", (e: OWOTData) => {
-    if (e.realUsername !== "(anon)" /* needed due to anon colors */)
-        user2id[e.realUsername] = e.id;
-});
+/// <reference path="whois.ts" />
 
 // Simple client-side wrapper around /tell to add @[user] functionality.
 // /tell is implemented server-side, so we can just use addCommand here.
@@ -20,8 +12,8 @@ addCommand("tell", (args) => {
     // Replace @[user] with their ID.
     if (args.length > 0 && args[0].charAt(0) === "@") {
         let user = args[0].slice(1);
-        if (user2id.hasOwnProperty(user)) {
-            args[0] = user2id[user].toString();
+        if (user_data_index.user.hasOwnProperty(user)) {
+            args[0] = user_data[user_data_index.user[user]].id.toString();
         } else {
             informUser(`${user} hasn't been seen since Chat++ started.`, false);
             return;
