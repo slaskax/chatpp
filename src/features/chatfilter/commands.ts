@@ -4,7 +4,7 @@
 // Functionality that is shared between /block and /unblock.
 let core_subcommands = {
     user: (args: string[], callback: (user: string) => void) => {
-        if (args.length === 1)
+        if (args.length !== 1)
             throw "Invalid username.";
 
         callback(args[0]);
@@ -104,11 +104,13 @@ addCommand("block", (args) => {
     }
 
     // Match subcommand to function and print message if error thrown.
-    let nargs = args.slice(1)
+    let nargs = args.slice(1);
+    let modified = true;
     try {
         switch (args[0]) {
             case "list":
                 block_subcommands.list();
+                modified = false;
                 break;
             case "user":
                 block_subcommands.user(nargs);
@@ -128,10 +130,13 @@ addCommand("block", (args) => {
     } catch (msg) {
         if (typeof msg === "string") {
             informUser(msg, false);
+            return;
         } else {
             throw msg;
         }
     }
+
+    if (modified) informUser("Added to the block list.", false);
 });
 
 /*************************************
@@ -175,12 +180,15 @@ addCommand("unblock", (args) => {
         return;
     }
 
-    let nargs = args.slice(1)
+    let nargs = args.slice(1);
     try {
         switch (args[0]) {
             case "all":
                 unblock_subcommands.all();
-                break;
+                
+                // Exit early so we can give a custom message for this case.
+                informUser("Reset the block list.", false);
+                return;
             case "user":
                 unblock_subcommands.user(nargs);
                 break;
@@ -199,8 +207,11 @@ addCommand("unblock", (args) => {
     } catch (msg) {
         if (typeof msg === "string") {
             informUser(msg, false);
+            return;
         } else {
             throw msg;
         }
     }
+
+    informUser("Removed from block list.", false);
 });
