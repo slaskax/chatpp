@@ -57,11 +57,87 @@ class Filter {
     }
 
     public add_rule(kind: FilterTypes, data: any) {
-        Filter.save_data();
+        switch (kind) {
+        case FilterTypes.Username:
+            if (typeof data !== "string") throw Error();
+
+            if (!Filter.rules.username.includes(data)) {
+                Filter.rules.username.push(data);
+                Filter.save_data();
+                return;
+            }
+        case FilterTypes.Nickname:
+            if (typeof data !== "string") return;
+
+            if (!Filter.rules.nickname.includes(data)) {
+                Filter.rules.nickname.push(data);
+                Filter.save_data();
+                return;
+            }
+        case FilterTypes.String:
+            if (typeof data !== "string") throw Error();
+
+            if (!Filter.rules.string.includes(data)) {
+                Filter.rules.string.push(data);
+                Filter.save_data();
+                return;
+            }
+        case FilterTypes.ID:
+            if (typeof data !== "number") throw Error();
+
+            if (!Filter.rules.id?.includes(data)) {
+                Filter.rules.id?.push(data);
+                Filter.save_data();
+                return;
+            }
+        }
+
+        /* If this point has been reached (i.e. return wasn't called), then
+         *the rule must not exist, and we'll inform the user of this */
+        throw "Rule does not exist";
     }
 
     public del_rule(kind: FilterTypes, data: any) {
-        Filter.save_data();
+        let idx;
+
+        switch (kind) {
+        case FilterTypes.Username:
+            if (typeof data !== "string") throw Error();
+
+            idx = Filter.rules.username.indexOf(data);
+            if (idx === -1) break;
+
+            Filter.rules.username.splice(idx, 1);
+            return;
+        case FilterTypes.Nickname:
+            if (typeof data !== "string") throw Error();
+
+            idx = Filter.rules.nickname.indexOf(data);
+            if (idx === -1) break;
+
+            Filter.rules.nickname.splice(idx, 1);
+            return;
+        case FilterTypes.String:
+            if (typeof data !== "string") throw Error();
+
+            idx = Filter.rules.string.indexOf(data);
+            if (idx === -1) break;
+
+            Filter.rules.string.splice(idx, 1);
+            return;
+        case FilterTypes.ID:
+            if (typeof data !== "number") throw Error();
+
+            idx = Filter.rules.id?.indexOf(data);
+            if (typeof idx === "undefined" || idx === -1) break;
+
+            Filter.rules.id?.splice(idx, 1);
+            return;
+        }
+
+        /* If this point has been reached (i.e. return wasn't called), then
+         *the rule must not exist, and we'll inform the user of this */
+        throw "Rule does not exist";
     }
 
     public should_filter(event: OWOTData): boolean {
