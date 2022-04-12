@@ -26,7 +26,7 @@ w.on("chat", (e: OWOTData) => {
 
 addCommand("whois", (args) => {
     if (args.length !== 1) {
-        informUser("Invalid number of args");
+        informUser("Invalid number of arguments.", false);
         return;
     }
 
@@ -44,7 +44,7 @@ addCommand("whois", (args) => {
     } else {
         let id = parseInt(args[0]);
         if (Number.isNaN(id)) {
-            informUser("Invalid ID.");
+            informUser("Invalid ID.", false);
             return;
         }
 
