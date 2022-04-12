@@ -20,5 +20,6 @@ w.on("chat", (e: OWOTData) => {
     
     user_data[e.channel] = r;
     user_data_index.id[e.id] = e.channel;
-    user_data_index.user[e.realUsername] = e.channel;
+    if (e.realUsername !== "(anon)" /* needed due to anon colors */)
+        user_data_index.user[e.realUsername] = e.channel;
 });
