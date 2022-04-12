@@ -21,3 +21,12 @@ of new features and remove various annoyances. Give it a shot!
 * tabs for chat menu; ability to open multiple worlds
 * /addchat command for the funne
 * a /settings command for various things such as chatfield size defaults
+* ability to clear chat with `/clear`
+* improved versions of existing commands
+    * `/color text <color>` and `/color chat <color>` instead of just `/chatcolor`
+    * `/warp world` and `/warp server`
+* ability to change chat font through `/settings`
+* chat theme manager and auto-loading
+    * ability to have chat theme sync with canvas theme
+* `/me <message>` like IRC
+* `/whois <user|nick|id>` which shows ID, chat color, account name, and last message time.
