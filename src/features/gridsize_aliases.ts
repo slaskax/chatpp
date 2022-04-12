@@ -1,6 +1,6 @@
 const GRIDSIZE_ALIASES: {[key: string]: string} = {
     "default": "10x18",
-    "sqaure": "18x18",
+    "square": "18x18",
     "half": "10x20",
     "mixed": "18x20",
 }
