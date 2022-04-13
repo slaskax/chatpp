@@ -8,7 +8,7 @@ type UserRecord = {
 };
 
 // A mapping between usernames and their last seen ID.
-let user_data: { [key: string]: UserRecord };
+let user_data: {[key: string]: UserRecord} = {};
 let ud_index = {
     "user": {} as { [key: string]: string },
     "id": {} as { [key: number]: string }
@@ -16,12 +16,15 @@ let ud_index = {
 
 // Updates user_data with the relevent info.
 w.on("chat", (e: OWOTData) => {
-    let r: UserRecord = { nick: e.nickname, id: e.id, last_message: e.date }
+    let r: UserRecord = { nick: e.nickname, id: e.id, last_message: e.dataObj.date }
 
-    user_data[e.channel] = r;
-    ud_index.id[e.id] = e.channel;
-    if (e.realUsername !== "(anon)" /* needed due to anon colors */)
-        ud_index.user[e.realUsername] = e.channel;
+    if (e.realUsername !== "(anon)" /* needed due to anon colors */) {
+        r.user = e.realUsername;
+        ud_index.user[e.realUsername] = e.dataObj.channel;
+    }
+
+    ud_index.id[e.id] = e.dataObj.channel;
+    user_data[e.dataObj.channel] = r;
 });
 
 addCommand("whois", (args) => {
