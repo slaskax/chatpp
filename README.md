@@ -26,6 +26,7 @@ of new features and remove various annoyances. Give it a shot!
 * improved versions of existing commands
     * `/color text <color>` and `/color chat <color>` instead of just `/chatcolor`
     * `/warp world` and `/warp server`
+    * improve `/whoami` command to have more details and a preview message
 * ability to change chat font through `/settings`
 * chat theme manager and auto-loading
     * ability to have chat theme sync with canvas theme
