@@ -31,3 +31,4 @@ of new features and remove various annoyances. Give it a shot!
     * ability to have chat theme sync with canvas theme
 * `/me <message>` like IRC
 * allows /clear to take an optional argument to clear a specific person's messages only
+* improve /whoami command to have more details and a preview message
