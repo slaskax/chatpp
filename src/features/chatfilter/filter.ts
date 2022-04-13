@@ -15,21 +15,31 @@ enum FilterTypes {
 class Filter {
     private static instance: Filter;
     private static rules: {
-        string: string[],
-        username: string[],
-        nickname: string[],
-        id?: number[]
+        string: Set<string>,
+        username: Set<string>,
+        nickname: Set<string>,
+        id?: Set<number>
     };
     private static auto: Autofilter;
 
     private constructor() {
-        Filter.rules = {string: [], username: [], nickname: [], id: []};
+        Filter.rules = {
+            string: new Set(),
+            username: new Set(),
+            nickname: new Set(),
+            id: new Set()
+        };
 
         // Load data from localStorage if it exists.
         let ls_data = localStorage.getItem(FILTER_KEY);
-        if (ls_data)
-            Filter.rules = Object.assign(Filter.rules, JSON.parse(ls_data));
-        
+        if (ls_data) {
+            // Convert the saved arrays into Set objects.
+            let dec = JSON.parse(ls_data);
+            for (let i in dec)
+                dec[i] = new Set(dec[i]);
+
+            Filter.rules = Object.assign(Filter.rules, dec);
+        }
         Filter.auto = Autofilter.get_instance();
     };
 
@@ -48,14 +58,24 @@ class Filter {
 
     // Saves changed data to localStorage.
     private static save_data() {
-        var copy = Object.assign({}, Filter.rules);
+        let copy: {[key: string]: Set<any> | any[]} = Object.assign({}, Filter.rules);
+
+        // Remove IDs since they frequently change.
         delete copy.id;
+
+        // Convert sets to arrays for storage.
+        for (let i in copy)
+            copy[i] = [...copy[i].values()];
 
         localStorage.setItem(FILTER_KEY, JSON.stringify(copy));
     }
 
     public reset_rules() {
-        Filter.rules = {string: [], username: [], nickname: [], id: []};
+        Filter.rules.id?.clear();
+        Filter.rules.nickname.clear();
+        Filter.rules.string.clear();
+        Filter.rules.username.clear();
+
         Filter.save_data();
     }
 
@@ -64,40 +84,48 @@ class Filter {
         case FilterTypes.Username:
             if (typeof data !== "string") throw Error();
 
-            if (!Filter.rules.username.includes(data)) {
-                Filter.rules.username.push(data);
+            if (!Filter.rules.username.has(data)) {
+                Filter.rules.username.add(data);
                 Filter.save_data();
                 return;
             }
+
+            break;
         case FilterTypes.Nickname:
             if (typeof data !== "string") return;
 
-            if (!Filter.rules.nickname.includes(data)) {
-                Filter.rules.nickname.push(data);
+            if (!Filter.rules.nickname.has(data)) {
+                Filter.rules.nickname.add(data);
                 Filter.save_data();
                 return;
             }
+
+            break;
         case FilterTypes.String:
             if (typeof data !== "string") throw Error();
 
-            if (!Filter.rules.string.includes(data)) {
-                Filter.rules.string.push(data);
+            if (!Filter.rules.string.has(data)) {
+                Filter.rules.string.add(data);
                 Filter.save_data();
                 return;
             }
+
+            break;
         case FilterTypes.ID:
             if (typeof data !== "number") throw Error();
 
-            if (!Filter.rules.id?.includes(data)) {
-                Filter.rules.id?.push(data);
+            if (!Filter.rules.id?.has(data)) {
+                Filter.rules.id?.add(data);
                 Filter.save_data();
                 return;
             }
+
+            break;
         }
 
         /* If this point has been reached (i.e. return wasn't called), then
-         *the rule must not exist, and we'll inform the user of this */
-        throw "Rule does not exist";
+         * the rule must already exist, and we'll inform the user of this */
+        throw "Rule already exists.";
     }
 
     public del_rule(kind: FilterTypes, data: any) {
@@ -107,40 +135,36 @@ class Filter {
         case FilterTypes.Username:
             if (typeof data !== "string") throw Error();
 
-            idx = Filter.rules.username.indexOf(data);
-            if (idx === -1) break;
+            if (!Filter.rules.username.has(data)) break;
 
-            Filter.rules.username.splice(idx, 1);
+            Filter.rules.username.delete(data);
             return;
         case FilterTypes.Nickname:
             if (typeof data !== "string") throw Error();
 
-            idx = Filter.rules.nickname.indexOf(data);
-            if (idx === -1) break;
+            if (!Filter.rules.nickname.has(data)) break;
 
-            Filter.rules.nickname.splice(idx, 1);
+            Filter.rules.nickname.delete(data);
             return;
         case FilterTypes.String:
             if (typeof data !== "string") throw Error();
 
-            idx = Filter.rules.string.indexOf(data);
-            if (idx === -1) break;
+            if (!Filter.rules.string.has(data)) break;
 
-            Filter.rules.string.splice(idx, 1);
+            Filter.rules.string.delete(data);
             return;
         case FilterTypes.ID:
             if (typeof data !== "number") throw Error();
 
-            idx = Filter.rules.id?.indexOf(data);
-            if (typeof idx === "undefined" || idx === -1) break;
+            if (!Filter.rules.id?.has(data)) break;
 
-            Filter.rules.id?.splice(idx, 1);
+            Filter.rules.id?.delete(data);
             return;
         }
 
         /* If this point has been reached (i.e. return wasn't called), then
          *the rule must not exist, and we'll inform the user of this */
-        throw "Rule does not exist";
+        throw "Rule does not exist.";
     }
 
     public should_filter(event: OWOTData): boolean {
@@ -152,15 +176,15 @@ class Filter {
         }
 
         // Case-sensitive check for disallowed nicknames.
-        if (Filter.rules.nickname.includes(event.nickname))
+        if (Filter.rules.nickname.has(event.nickname))
             return true;
         
         // Check for disallowed users.
-        if (Filter.rules.username.includes(event.realUsername))
+        if (Filter.rules.username.has(event.realUsername))
             return true;
         
         // Check for disallowed IDs.
-        if (Filter.rules.id?.includes(event.id))
+        if (Filter.rules.id?.has(event.id))
             return true;
         
         // See if the auto-filter has any issue with it.
