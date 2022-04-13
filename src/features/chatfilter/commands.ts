@@ -53,17 +53,17 @@ let block_subcommands = {
             out += `  * ${html_tag_esc(i)}\n`;
         }
     
-        out += `=== Nicknames (${filter_rules.nickname.length})<br>`;
+        out += `=== Nicknames (${filter_rules.nickname.length})\n`;
         for (const i of filter_rules.nickname) {
             out += `  * ${html_tag_esc(i)}\n`;
         }
     
-        out += `=== Users (${filter_rules.username.length})<br>`;
+        out += `=== Users (${filter_rules.username.length})\n`;
         for (const i of filter_rules.username) {
             out += `  * ${html_tag_esc(i)}\n`;
         }
     
-        out += `=== IDs (${filter_rules.id?.length})<br>`; // @ts-ignore
+        out += `=== IDs (${filter_rules.id?.length})\n`; // @ts-ignore
         for (const i of filter_rules.id) {
             out += `  * ${html_tag_esc(i.toString())}\n`;
         }
